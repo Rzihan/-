@@ -135,7 +135,8 @@ public class BBSTree {
             //树为空，树长高
             return new InsertResult(new BBSTNode(record, EQUAL_HIGH), true, true);
         } else if (node.getData().compareByKey(record.getKey()) == 0) {
-            //树中存在对应的节点，不插入
+            //树中存在对应的节点,更新记录
+            node.setData(record);
             return new InsertResult(node, false, false);
         } else if (node.getData().compareByKey(record.getKey()) > 0) {
             //插入左子树中
