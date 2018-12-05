@@ -3,6 +3,7 @@ package test;
 import binary_tree.BBSTree;
 import binary_tree.Record;
 
+import java.util.Map;
 import java.util.Random;
 
 public class BBTreeTest {
@@ -10,7 +11,9 @@ public class BBTreeTest {
     public static void main(String[] args) {
 //        test();
 //        testInsert();
-        testDelete();
+//        testDelete();
+//        testMerge();
+        testSplit();
     }
 
     private static void testInsert() {
@@ -90,4 +93,35 @@ public class BBTreeTest {
         }
     }
 
+    static void testMerge() {
+        BBSTree tree1 = new BBSTree();
+        BBSTree tree2 = new BBSTree();
+
+        Random random = new Random();
+        for (int i = 0; i < 15; i++) {
+            tree1.put(new Record(random.nextInt(100), "value" + random.nextInt(50)));
+            tree2.put(new Record(random.nextInt(100), "value" + random.nextInt(50)));
+        }
+        System.out.println("第一棵树");
+        tree1.output();
+        System.out.println("第二棵树");
+        tree2.output();
+
+        BBSTree.merge(tree1, tree2).output();
+    }
+
+    static void testSplit() {
+        BBSTree tree1 = new BBSTree();
+
+        Random random = new Random();
+        for (int i = 0; i < 15; i++) {
+            tree1.put(new Record(random.nextInt(100), "value" + random.nextInt(50)));
+        }
+        tree1.output();
+        int x = random.nextInt(40) + 40;
+        System.out.println("分裂因子:" + x);
+        Map<String, BBSTree> treeMap = BBSTree.split(tree1, x);
+        treeMap.get("big").output();
+        treeMap.get("small").output();
+    }
 }

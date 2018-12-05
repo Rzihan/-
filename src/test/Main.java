@@ -35,6 +35,8 @@ public class Main {
             System.out.println("select 5 前序遍历preOrder");
             System.out.println("select 6 后序遍历postOrder");
             System.out.println("select 7 中序遍历inOrder");
+            System.out.println("select 8 测试合并平衡二叉树");
+            System.out.println("select 9 测试分裂平衡二叉树");
 
             select = scanner.nextInt();
             switch (select) {
@@ -65,9 +67,15 @@ public class Main {
                     tree.postOrder();
                     break;
                 case 7 :
-                    tree.inOrder();
+                    tree.mergeOrder();
+                    break;
+                case 8 :
+                    BBTreeTest.testMerge();
+                    break;
+                case 9 :
+                    BBTreeTest.testSplit();
                     break;
             }
-        } while (select > 0 && select < 8);
+        } while (select > 0 && select < 10);
     }
 }

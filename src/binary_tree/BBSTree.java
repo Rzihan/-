@@ -1,5 +1,10 @@
 package binary_tree;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
+
 /**
  * 平衡二叉查找树
  */
@@ -568,16 +573,83 @@ public class BBSTree {
     /**
      * 中序遍历
      */
-    public void inOrder() {
+    public void mergeOrder() {
         System.out.println("*****中序遍历*****");
-        inOrder(root);
+        mergeOrder(root);
         System.out.println();
     }
 
-    private void inOrder(BBSTNode node) {
+    private void mergeOrder(BBSTNode node) {
         if (node == null) return;
-        inOrder(node.getLeftChild());
+        mergeOrder(node.getLeftChild());
         System.out.print(node.getData().getKey() + ",");
-        inOrder(node.getRightChild());
+        mergeOrder(node.getRightChild());
+    }
+
+    public static BBSTree merge(BBSTree tree1, BBSTree tree2) {
+        if (tree1 == null && tree2 != null) {
+            return tree2;
+        } else if (tree2 == null && tree1 != null) {
+            return tree1;
+        } else if (tree1 == null) {
+            return new BBSTree();
+        }
+
+        Queue<Record> queue = new LinkedList<>();
+        mergeOrder(tree1.root, queue);
+        mergeOrder(tree2.root, queue);
+
+        BBSTree newTree = new BBSTree();
+        while (!queue.isEmpty())
+            newTree.put(queue.poll());
+        return newTree;
+    }
+
+    private static void mergeOrder(BBSTNode node, Queue<Record> queue) {
+        if (node == null) return;
+        mergeOrder(node.getLeftChild(), queue);
+        queue.offer(node.getData());
+        mergeOrder(node.getRightChild(), queue);
+    }
+
+    public static Map<String, BBSTree> split(BBSTree tree, int x) {
+        Map<String, BBSTree> resultMap = new HashMap<>(2);
+        BBSTree small = new BBSTree();
+        BBSTree big = new BBSTree();
+        Queue<Record> smallQueue = new LinkedList<>();
+        Queue<Record> bigQueue = new LinkedList<>();
+        splitOrder(tree.root, smallQueue, x, false);
+        splitOrder(tree.root, bigQueue, x, true);
+        while (!smallQueue.isEmpty()) {
+            small.put(smallQueue.poll());
+        }
+        while (!bigQueue.isEmpty()) {
+            big.put(bigQueue.poll());
+        }
+        resultMap.put("big", big);
+        resultMap.put("small", small);
+        return resultMap;
+    }
+
+    /**
+     * tag等于true,将大于x的入队,否则将小于等于x的入队
+     * @param node
+     * @param queue
+     * @param x
+     * @param tag
+     */
+    private static void splitOrder(BBSTNode node, Queue<Record> queue, int x, boolean tag) {
+        if (node == null) return;
+        splitOrder(node.getLeftChild(), queue, x, tag);
+        if (tag) {
+            if (node.getData().compareByKey(x) > 0) {
+                queue.offer(node.getData());
+            }
+        } else {
+            if (!(node.getData().compareByKey(x) > 0)) {
+                queue.offer(node.getData());
+            }
+        }
+        splitOrder(node.getRightChild(), queue, x, tag);
     }
 }
