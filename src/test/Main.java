@@ -3,6 +3,7 @@ package test;
 import binary_tree.BBSTree;
 import binary_tree.Record;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -67,7 +68,7 @@ public class Main {
                     tree.postOrder();
                     break;
                 case 7 :
-                    tree.mergeOrder();
+                    tree.inOrder();
                     break;
                 case 8 :
                     BBTreeTest.testMerge();

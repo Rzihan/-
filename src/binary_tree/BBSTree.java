@@ -573,17 +573,17 @@ public class BBSTree {
     /**
      * 中序遍历
      */
-    public void mergeOrder() {
+    public void inOrder() {
         System.out.println("*****中序遍历*****");
-        mergeOrder(root);
+        inOrder(root);
         System.out.println();
     }
 
-    private void mergeOrder(BBSTNode node) {
+    private void inOrder(BBSTNode node) {
         if (node == null) return;
-        mergeOrder(node.getLeftChild());
+        inOrder(node.getLeftChild());
         System.out.print(node.getData().getKey() + ",");
-        mergeOrder(node.getRightChild());
+        inOrder(node.getRightChild());
     }
 
     public static BBSTree merge(BBSTree tree1, BBSTree tree2) {
